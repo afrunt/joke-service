@@ -82,7 +82,9 @@
                 <resources>
                     <resource>
                         <directory>src/main/resources</directory>
-                        <excludes>*-dev.*</excludes>
+                        <excludes>
+                            <exclude>*-dev.*</exclude>
+                        </excludes>
                     </resource>
                 </resources>
             </build>
