@@ -1,0 +1,17 @@
+spring:
+  jackson:
+    serialization:
+      indent_output: true
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        order_inserts: true
+        order_updates: true
+        bytecode:
+          use_reflection_optimizer: true
+        jdbc:
+          batch_size: 1000
+          batch_versioned_data: true
+          non_contextual_creation: true
