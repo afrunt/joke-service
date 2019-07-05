@@ -97,6 +97,30 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>io.fabric8</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <configuration>
+                    <useColor>true</useColor>
+
+                    <images>
+                        <image>
+                            <name>afrunt/${project.parent.artifactId}:${project.parent.version}</name>
+                            <alias>dockerfile</alias>
+                            <build>
+                                <dockerFileDir>${project.basedir}</dockerFileDir>
+                                <tags combine.children="append">
+                                    <tag>latest</tag>
+                                </tags>
+                            </build>
+                        </image>
+                    </images>
+                    <authConfig>
+                        <username>${docker.user}</username>
+                        <password>${docker.password}</password>
+                    </authConfig>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 </project>
