@@ -25,4 +25,4 @@ ENV PROFILES="release"\
 WORKDIR /deployment/
 
 ENTRYPOINT ["/deployment/entrypoint.sh"]
-CMD[]
+CMD []
