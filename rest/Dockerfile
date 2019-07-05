@@ -26,7 +26,3 @@ WORKDIR /deployment/
 
 ENTRYPOINT ["/deployment/entrypoint.sh"]
 CMD[]
-
-WORKDIR /deployment
-
-ENTRYPOINT ["/deployment/entrypoint.sh"]
