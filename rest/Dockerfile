@@ -1,4 +1,4 @@
-FROM adoptopenjdk/openjdk12
+FROM adoptopenjdk/openjdk12:alpine-slim
 
 RUN mkdir /deployment
 

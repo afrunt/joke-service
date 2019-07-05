@@ -8,6 +8,7 @@ then
 fi
 
 exec java -Xmx${MEM_MAX} -Dspring.profiles.active="${PROFILES}" ${APM_PARAMETERS} -Dserver.port=${SERVER_PORT}  -Dmanagement.server.port=${MANAGEMENT_SERVER_PORT} \
+    -Dspring.datasource.url=${DB_URL} -Dspring.datasource.username=${DB_USERNAME} -Dspring.datasource.password=${DB_PASSWORD} \
     $@ \
     -jar /deployment/application.jar
 
