@@ -21,7 +21,9 @@ ENV PROFILES="release"\
     APM_APPLICATION_PACKAGES="com.afrunt"\
     DB_URL="jdbc:postgresql://postgres:5432/postgres"\
     DB_USERNAME="postgres"\
-    DB_PASSWORD="postgres"
+    DB_PASSWORD="postgres"\
+    DB_MAX_POOL_SIZE=50 \
+    BULK_MAX_SIZE=1000
 
 WORKDIR /deployment/
 

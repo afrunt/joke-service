@@ -1,4 +1,11 @@
+jokeservice:
+  bulk:
+    maxsize: 1000
+    
 spring:
+  datasource:
+    hikari:
+      maximum-pool-size: 50
   jackson:
     serialization:
       indent_output: true
