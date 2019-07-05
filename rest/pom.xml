@@ -78,6 +78,14 @@
                     <artifactId>postgresql</artifactId>
                 </dependency>
             </dependencies>
+            <build>
+                <resources>
+                    <resource>
+                        <directory>src/main/resources</directory>
+                        <excludes>*-dev.*</excludes>
+                    </resource>
+                </resources>
+            </build>
         </profile>
     </profiles>
 
