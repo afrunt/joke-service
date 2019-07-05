@@ -21,7 +21,9 @@ ENV PROFILES="release"\
     DB_URL="jdbc:postgresql://postgres:5432/postgres"\
     DB_USERNAME="postgres"\
     DB_PASSWORD="postgres"
-    
+
+ENTRYPOINT ["/deployment/entrypoint.sh"]
+CMD[]
 
 WORKDIR /deployment
 
