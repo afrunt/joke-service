@@ -8,4 +8,4 @@ jdk:
   - openjdk12
 
 script: 
-  - mvn clean package docker:build docker:push -Ddocker.user=${DOCKER_USER} -Ddocker.password=${DOCKER_PASSWORD} -P release
+  - mvn clean package docker:build docker:push -Ddocker.user=${DOCKER_USERNAME} -Ddocker.password=${DOCKER_PASSWORD} -P release
