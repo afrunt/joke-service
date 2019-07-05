@@ -12,6 +12,7 @@ RUN chmod +x /deployment/entrypoint.sh
 
 ENV PROFILES="release"\
     MEM_MAX="256m"\
+    JAVA_OPTS=""\
     SERVER_PORT=8080\
     MANAGEMENT_SERVER_PORT=9090\ 
     APM_ENABLED=false\
