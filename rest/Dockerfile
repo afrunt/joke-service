@@ -22,6 +22,8 @@ ENV PROFILES="release"\
     DB_USERNAME="postgres"\
     DB_PASSWORD="postgres"
 
+WORKDIR /deployment/
+
 ENTRYPOINT ["/deployment/entrypoint.sh"]
 CMD[]
 
