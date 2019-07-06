@@ -1,9 +1,6 @@
 package com.afrunt.stupidjokes.jokeservice.api.impl.misc;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author Andrii Frunt
@@ -17,8 +14,12 @@ public abstract class Chunks {
     public static <T> List<List<T>> split(Collection<T> src) {
         return split(src, 10000);
     }
-    
+
     public static <T> List<List<T>> split(Collection<T> src, Integer chunkSize) {
+        if (src == null || src.isEmpty()) {
+            return Collections.emptyList();
+        }
+
         if (src.size() <= chunkSize) {
             return List.of(new ArrayList<>(src));
         }
