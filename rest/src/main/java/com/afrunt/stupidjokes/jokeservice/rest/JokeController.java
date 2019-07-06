@@ -18,12 +18,10 @@ import java.util.Map;
 @RequestMapping("/api/joke")
 public class JokeController {
     private JokeService jokeService;
-    private int bulkMaxSize;
 
     @Autowired
-    public JokeController(JokeService jokeService, @Value("${jokeservice.bulk.maxsize}") int bulkMaxSize) {
+    public JokeController(JokeService jokeService) {
         this.jokeService = jokeService;
-        this.bulkMaxSize = bulkMaxSize;
     }
 
     @GetMapping("/random")
@@ -42,9 +40,6 @@ public class JokeController {
 
     @PostMapping("/bulk")
     public ResponseEntity<Void> bulk(@RequestBody List<String> jokes) {
-        if (jokes.size() > bulkMaxSize) {
-            throw new IllegalArgumentException("Size of the bulk should not be greater than " + bulkMaxSize);
-        }
         jokeService.create(jokes);
         return ResponseEntity.ok(null);
     }

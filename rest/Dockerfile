@@ -22,8 +22,8 @@ ENV PROFILES="release"\
     DB_URL="jdbc:postgresql://postgres:5432/postgres"\
     DB_USERNAME="postgres"\
     DB_PASSWORD="postgres"\
-    DB_MAX_POOL_SIZE=50 \
-    BULK_MAX_SIZE=1000
+    DB_MAX_POOL_SIZE=50 
+    
 
 WORKDIR /deployment/
 

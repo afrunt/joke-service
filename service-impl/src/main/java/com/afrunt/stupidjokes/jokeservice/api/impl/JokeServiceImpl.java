@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -65,28 +66,58 @@ public class JokeServiceImpl implements JokeService {
     public void create(Collection<String> jokes) {
         jokes = new HashSet<>(jokes);
 
-        LOGGER.info("{} unique jokes", jokes.size());
+        List<List<String>> chunks = chunks(jokes, 10000);
+        LOGGER.info("{} unique jokes. {} chunks", jokes.size(), chunks.size());
 
-        Set<Integer> existingHashes = jokeRepository.findExistingHashes(jokes.stream()
-                .filter(Objects::nonNull)
-                .map(String::hashCode)
-                .collect(Collectors.toSet())
-        );
+        Consumer<List<String>> chunkConsumer = chunk -> {
+            Set<Integer> existingHashes = jokeRepository.findExistingHashes(chunk.stream()
+                    .filter(Objects::nonNull)
+                    .map(String::hashCode)
+                    .collect(Collectors.toSet())
+            );
 
-        LOGGER.info("{} hashes found", existingHashes.size());
+            LOGGER.info("{} hashes found", existingHashes.size());
+            List<JokeEntity> jokeEntities = chunk.stream()
+                    .filter(Objects::nonNull)
+                    .filter(body -> body.length() < 50000)
+                    .filter(body -> !existingHashes.contains(body.hashCode()))
+                    .map(body -> new JokeEntity()
+                            .setBody(body)
+                            .setHash(body.hashCode())
+                    )
+                    .collect(Collectors.toList());
 
-        List<JokeEntity> jokeEntities = jokes.stream()
-                .filter(Objects::nonNull)
-                .filter(body -> body.length() < 50000)
-                .filter(body -> !existingHashes.contains(body.hashCode()))
-                .map(body -> new JokeEntity()
-                        .setBody(body)
-                        .setHash(body.hashCode())
-                )
-                .collect(Collectors.toList());
+            LOGGER.info("{} joke to save", jokeEntities.size());
 
-        LOGGER.info("{} joke to save", jokeEntities.size());
+            jokeRepository.saveAll(jokeEntities);
+        };
 
-        jokeRepository.saveAll(jokeEntities);
+        chunks.forEach(chunkConsumer);
+    }
+
+    public <T> List<List<T>> chunks(Collection<T> src, int chunkSize) {
+        if (src.size() <= chunkSize) {
+            return List.of(new ArrayList<>(src));
+        }
+
+        List<T> chunk = new ArrayList<>();
+        List<List<T>> result = new ArrayList<>();
+
+        Iterator<T> iterator = src.iterator();
+
+        for (int i = 0; i < src.size(); i++) {
+            T element = iterator.next();
+            chunk.add(element);
+            if ((i + 1) % chunkSize == 0) {
+                result.add(chunk);
+                chunk = new ArrayList<>();
+            }
+        }
+
+        if (!chunk.isEmpty()) {
+            result.add(chunk);
+        }
+
+        return result;
     }
 }
