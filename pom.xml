@@ -30,9 +30,6 @@
         <docker.maven.plugin.version>0.30.0</docker.maven.plugin.version>
         <h2.version>1.4.199</h2.version>
         <postgresql.version>42.2.5</postgresql.version>
-        
-        <docker.user>afrunt</docker.user>
-        <docker.password>password</docker.password>
     </properties>
 
     <dependencyManagement>

@@ -125,10 +125,6 @@
                             </build>
                         </image>
                     </images>
-                    <authConfig>
-                        <username>${docker.user}</username>
-                        <password>${docker.password}</password>
-                    </authConfig>
                 </configuration>
             </plugin>
         </plugins>
