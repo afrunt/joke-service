@@ -3,6 +3,7 @@ package com.afrunt.stupidjokes.jokeservice.api.impl;
 import com.afrunt.stupidjokes.jokeservice.api.Joke;
 import com.afrunt.stupidjokes.jokeservice.api.JokeService;
 import com.afrunt.stupidjokes.jokeservice.api.impl.entity.JokeEntity;
+import com.afrunt.stupidjokes.jokeservice.api.impl.misc.Chunks;
 import com.afrunt.stupidjokes.jokeservice.api.impl.repository.JokeRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -59,25 +60,7 @@ public class JokeServiceImpl implements JokeService {
     @Override
     @Transactional
     public void dropDuplicates() {
-        Set<Long> ids = jokeRepository
-                .findDuplicatedHashes()
-                .stream()
-                .map(hash ->
-                        jokeRepository.findIdsByHash(hash).stream()
-                                .skip(1)
-                                .collect(Collectors.toList())
-
-                )
-                .flatMap(List::stream)
-                .collect(Collectors.toSet());
-
-        if (!ids.isEmpty()) {
-            LOGGER.info("Delete {} duplicates by id", ids.size());
-
-            chunks(ids, 10000)
-                    .forEach(idsChunk -> jokeRepository.deleteByIdIn(idsChunk));
-        }
-
+        jokeRepository.dropDuplicates();
     }
 
     @Override
@@ -94,9 +77,9 @@ public class JokeServiceImpl implements JokeService {
     @Override
     @Transactional
     public void create(Collection<String> jokes) {
-        jokes = new HashSet<>(jokes);
+        //jokes = new HashSet<>(jokes);
 
-        List<List<String>> chunks = chunks(jokes, 10000);
+        List<List<String>> chunks = Chunks.split(jokes, 10000);
         LOGGER.info("{} unique jokes. {} chunks", jokes.size(), chunks.size());
 
         Consumer<List<String>> chunkConsumer = chunk -> {
@@ -123,31 +106,5 @@ public class JokeServiceImpl implements JokeService {
         };
 
         chunks.forEach(chunkConsumer);
-    }
-
-    private <T> List<List<T>> chunks(Collection<T> src, int chunkSize) {
-        if (src.size() <= chunkSize) {
-            return List.of(new ArrayList<>(src));
-        }
-
-        List<T> chunk = new ArrayList<>();
-        List<List<T>> result = new ArrayList<>();
-
-        Iterator<T> iterator = src.iterator();
-
-        for (int i = 0; i < src.size(); i++) {
-            T element = iterator.next();
-            chunk.add(element);
-            if ((i + 1) % chunkSize == 0) {
-                result.add(chunk);
-                chunk = new ArrayList<>();
-            }
-        }
-
-        if (!chunk.isEmpty()) {
-            result.add(chunk);
-        }
-
-        return result;
     }
 }

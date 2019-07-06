@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * @author Andrii Frunt
@@ -50,7 +51,7 @@ public class JokeController {
     }
 
     @PostMapping("/bulk")
-    public ResponseEntity<Void> bulk(@RequestBody List<String> jokes) {
+    public ResponseEntity<Void> bulk(@RequestBody Set<String> jokes) {
         jokeService.create(jokes);
         return ResponseEntity.ok(null);
     }
