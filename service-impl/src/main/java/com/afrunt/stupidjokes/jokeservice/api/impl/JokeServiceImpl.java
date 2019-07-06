@@ -90,8 +90,6 @@ public class JokeServiceImpl implements JokeService {
     @Override
     @Transactional
     public void create(Collection<String> jokes) {
-        //jokes = new HashSet<>(jokes);
-
         List<List<String>> chunks = Chunks.split(jokes);
         LOGGER.info("{} unique jokes. {} chunks", jokes.size(), chunks.size());
 
