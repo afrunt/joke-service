@@ -97,7 +97,7 @@ public class JokeServiceImpl implements JokeService {
             LOGGER.info("{} hashes found", existingHashes.size());
             List<JokeEntity> jokeEntities = chunk.stream()
                     .filter(Objects::nonNull)
-                    .filter(body -> !body.trim().equals(""))
+                    .filter(body -> !body.equals(""))
                     .filter(body -> body.length() < 50000)
                     .filter(body -> !existingHashes.contains(body.hashCode()))
                     .map(STRING_TO_ENTITY)
