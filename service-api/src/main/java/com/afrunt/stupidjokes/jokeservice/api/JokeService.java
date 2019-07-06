@@ -14,6 +14,8 @@ public interface JokeService {
 
     Optional<Joke> findById(long id);
 
+    void drop();
+
     void create(Collection<String> jokes);
 
     default void create(String joke) {

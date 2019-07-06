@@ -51,6 +51,12 @@ public class JokeServiceImpl implements JokeService {
     }
 
     @Override
+    @Transactional
+    public void drop() {
+        jokeRepository.drop();
+    }
+
+    @Override
     public long count() {
         return jokeRepository.count();
     }
@@ -95,7 +101,7 @@ public class JokeServiceImpl implements JokeService {
         chunks.forEach(chunkConsumer);
     }
 
-    public <T> List<List<T>> chunks(Collection<T> src, int chunkSize) {
+    private <T> List<List<T>> chunks(Collection<T> src, int chunkSize) {
         if (src.size() <= chunkSize) {
             return List.of(new ArrayList<>(src));
         }
