@@ -7,7 +7,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -27,6 +26,13 @@ public class JokeController {
     @GetMapping("/random")
     public ResponseEntity<Joke> random() {
         return jokeService.random()
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Joke> findById(@PathVariable("id") long id) {
+        return jokeService.findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
