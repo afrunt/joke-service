@@ -29,6 +29,10 @@ public class JokeServiceImpl implements JokeService {
             .setId(jokeEntity.getId())
             .setBody(jokeEntity.getBody());
 
+    private static final Function<String, JokeEntity> STRING_TO_ENTITY = body -> new JokeEntity()
+            .setBody(body)
+            .setHash(body.hashCode());
+
     private JokeRepository jokeRepository;
 
     @Autowired
@@ -70,7 +74,8 @@ public class JokeServiceImpl implements JokeService {
 
     @Override
     public Optional<Joke> findById(long id) {
-        return jokeRepository.findById(id)
+        return jokeRepository
+                .findById(id)
                 .map(ENTITY_TO_JOKE);
     }
 
@@ -94,10 +99,7 @@ public class JokeServiceImpl implements JokeService {
                     .filter(Objects::nonNull)
                     .filter(body -> body.length() < 50000)
                     .filter(body -> !existingHashes.contains(body.hashCode()))
-                    .map(body -> new JokeEntity()
-                            .setBody(body)
-                            .setHash(body.hashCode())
-                    )
+                    .map(STRING_TO_ENTITY)
                     .collect(Collectors.toList());
 
             LOGGER.info("{} joke to save", jokeEntities.size());

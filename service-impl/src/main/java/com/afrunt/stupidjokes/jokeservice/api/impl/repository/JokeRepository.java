@@ -69,11 +69,10 @@ public interface JokeRepository extends JpaRepository<JokeEntity, Long> {
         Map<Integer, List<Long>> result = new HashMap<>();
 
         findHashIdPairsByHashesRaw(hashes)
-                .forEach(o -> {
-                    List<Long> ids = result.getOrDefault(o[0], new ArrayList<>());
-                    ids.add((Long) o[1]);
-                    result.put((Integer) o[0], ids);
-                });
+                .forEach(o -> result
+                        .computeIfAbsent((Integer) o[0], k -> new ArrayList<>())
+                        .add((Long) o[1])
+                );
 
         return result;
     }
