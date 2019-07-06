@@ -115,7 +115,7 @@
 
                     <images>
                         <image>
-                            <name>afrunt/${project.parent.artifactId}:${project.parent.version}</name>
+                            <name>${docker.repository}/${project.parent.artifactId}:${project.parent.version}</name>
                             <alias>dockerfile</alias>
                             <build>
                                 <dockerFileDir>${project.basedir}</dockerFileDir>
