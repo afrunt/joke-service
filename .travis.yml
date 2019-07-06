@@ -8,5 +8,5 @@ jdk:
   - openjdk12
 
 script: 
-  - echo "{$DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
+  - echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
   - mvn clean package docker:build docker:push -P release
