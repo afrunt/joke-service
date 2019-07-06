@@ -14,6 +14,10 @@ public abstract class Chunks {
     private Chunks() {
     }
 
+    public static <T> List<List<T>> split(Collection<T> src) {
+        return split(src, 10000);
+    }
+    
     public static <T> List<List<T>> split(Collection<T> src, Integer chunkSize) {
         if (src.size() <= chunkSize) {
             return List.of(new ArrayList<>(src));

@@ -64,7 +64,15 @@ public class JokeServiceImpl implements JokeService {
     @Override
     @Transactional
     public void dropDuplicates() {
-        jokeRepository.dropDuplicates();
+        Set<Long> ids = jokeRepository.findIdsOfDuplicatesToRemove();
+        if (!ids.isEmpty()) {
+            LOGGER.info("Delete {} duplicates by id", ids.size());
+
+            Chunks.split(ids)
+                    .forEach(chunk -> jokeRepository.deleteByIdIn(chunk));
+        } else {
+            LOGGER.info("No duplicates found");
+        }
     }
 
     @Override
@@ -84,7 +92,7 @@ public class JokeServiceImpl implements JokeService {
     public void create(Collection<String> jokes) {
         //jokes = new HashSet<>(jokes);
 
-        List<List<String>> chunks = Chunks.split(jokes, 10000);
+        List<List<String>> chunks = Chunks.split(jokes);
         LOGGER.info("{} unique jokes. {} chunks", jokes.size(), chunks.size());
 
         Consumer<List<String>> chunkConsumer = chunk -> {
