@@ -13,6 +13,8 @@ import org.springframework.stereotype.Repository;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static java.util.stream.Collectors.*;
+
 /**
  * @author Andrii Frunt
  */
@@ -43,7 +45,7 @@ public interface JokeRepository extends JpaRepository<JokeEntity, Long> {
     @Modifying
     default void dropDuplicates() {
         Set<Long> ids = findHashIdMapOfDuplicates().values().stream()
-                .map(idsChunk -> idsChunk.stream().skip(1).collect(Collectors.toList()))
+                .map(idsChunk -> idsChunk.stream().skip(1).collect(toList()))
                 .flatMap(List::stream)
                 .collect(Collectors.toSet());
 
@@ -66,14 +68,7 @@ public interface JokeRepository extends JpaRepository<JokeEntity, Long> {
             return Collections.emptyMap();
         }
 
-        Map<Integer, List<Long>> result = new HashMap<>();
-
-        findHashIdPairsByHashesRaw(hashes)
-                .forEach(o -> result
-                        .computeIfAbsent((Integer) o[0], k -> new ArrayList<>())
-                        .add((Long) o[1])
-                );
-
-        return result;
+        return findHashIdPairsByHashesRaw(hashes).stream()
+                .collect(groupingBy(o -> (Integer) o[0], mapping(o -> (Long) o[1], toList())));
     }
 }
