@@ -33,7 +33,6 @@ public class JokeController {
                 .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
-
     @GetMapping("/stats")
     public ResponseEntity<Map<String, Object>> stats() {
         return ResponseEntity.ok(Map.ofEntries(
