@@ -57,6 +57,30 @@ public class JokeServiceImpl implements JokeService {
     }
 
     @Override
+    @Transactional
+    public void dropDuplicates() {
+        Set<Long> ids = jokeRepository
+                .findDuplicatedHashes()
+                .stream()
+                .map(hash ->
+                        jokeRepository.findIdsByHash(hash).stream()
+                                .skip(1)
+                                .collect(Collectors.toList())
+
+                )
+                .flatMap(List::stream)
+                .collect(Collectors.toSet());
+
+        if (!ids.isEmpty()) {
+            LOGGER.info("Delete {} duplicates by id", ids.size());
+
+            chunks(ids, 10000)
+                    .forEach(idsChunk -> jokeRepository.deleteByIdIn(idsChunk));
+        }
+
+    }
+
+    @Override
     public long count() {
         return jokeRepository.count();
     }

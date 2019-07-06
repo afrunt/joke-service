@@ -16,6 +16,8 @@ public interface JokeService {
 
     void drop();
 
+    void dropDuplicates();
+    
     void create(Collection<String> jokes);
 
     default void create(String joke) {

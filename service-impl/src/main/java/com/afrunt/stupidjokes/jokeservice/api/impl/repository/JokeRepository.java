@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -21,4 +22,14 @@ public interface JokeRepository extends JpaRepository<JokeEntity, Long> {
     @Modifying
     @Query("DELETE FROM JokeEntity")
     void drop();
+
+    @Query("SELECT je.hash FROM JokeEntity je GROUP BY je.hash HAVING count(je) > 1")
+    Set<Integer> findDuplicatedHashes();
+
+    @Query("SELECT je.id FROM JokeEntity je WHERE je.hash = :hash ORDER BY je.id")
+    List<Long> findIdsByHash(@Param("hash") int hash);
+
+    @Modifying
+    @Query("DELETE FROM JokeEntity je WHERE je.id in :ids")
+    void deleteByIdIn(@Param("ids") Collection<Long> ids);
 }

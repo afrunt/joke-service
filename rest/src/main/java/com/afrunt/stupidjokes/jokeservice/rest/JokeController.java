@@ -43,6 +43,12 @@ public class JokeController {
         return ResponseEntity.ok(null);
     }
 
+    @DeleteMapping("/drop-duplicates")
+    public ResponseEntity<Void> dropDuplicates() {
+        jokeService.dropDuplicates();
+        return ResponseEntity.ok(null);
+    }
+
     @PostMapping("/bulk")
     public ResponseEntity<Void> bulk(@RequestBody List<String> jokes) {
         jokeService.create(jokes);
