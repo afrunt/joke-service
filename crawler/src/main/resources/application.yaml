@@ -1,7 +1,6 @@
 jokeservice:
   url: http://localhost:8080
 crawler:
-  mode: randomjokecrawler
   jobs:
     randomjokecrawler:
       batchSize: 100000

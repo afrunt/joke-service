@@ -17,6 +17,9 @@ ENV PROFILES="release,full"\
     APM_SERVER_URLS=""\
     APM_SERVICE_NAME="joke-service-crawler"\
     APM_APPLICATION_PACKAGES="com.afrunt"\
+    JOKE_SERVICE_URL="http://localhost:8080"\
+    RANDOMJOKECRAWLER_BATCH_SIZE=100000\
+    RANDOMJOKECRAWLER_BUFFER_SIZE=1000\
     DB_URL="jdbc:h2:/db/jokedb;DB_CLOSE_ON_EXIT=FALSE"\
     DB_USERNAME="sa"\
     DB_PASSWORD="password"
