@@ -9,9 +9,11 @@
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
     <modules>
-        <module>rest</module>
+        <module>commons</module>
         <module>service-api</module>
         <module>service-impl</module>
+        <module>rest</module>
+        <module>crawler</module>
     </modules>
 
     <properties>
@@ -30,8 +32,9 @@
         <docker.maven.plugin.version>0.30.0</docker.maven.plugin.version>
         <h2.version>1.4.199</h2.version>
         <postgresql.version>42.2.5</postgresql.version>
-        
+
         <docker.repository>afrunt</docker.repository>
+        <random-joke-crawler.version>0.2.1</random-joke-crawler.version>
     </properties>
 
     <dependencyManagement>
@@ -49,6 +52,12 @@
                 <version>${spring-cloud.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>com.afrunt.stupidjokes.jokeservice</groupId>
+                <artifactId>commons</artifactId>
+                <version>${project.version}</version>
             </dependency>
 
             <dependency>
@@ -72,6 +81,12 @@
                 <groupId>org.postgresql</groupId>
                 <artifactId>postgresql</artifactId>
                 <version>${postgresql.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.afrunt.randomjoke</groupId>
+                <artifactId>random-joke-crawler</artifactId>
+                <version>${random-joke-crawler.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

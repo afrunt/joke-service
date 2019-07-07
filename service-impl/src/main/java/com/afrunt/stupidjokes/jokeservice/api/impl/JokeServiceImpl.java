@@ -3,7 +3,7 @@ package com.afrunt.stupidjokes.jokeservice.api.impl;
 import com.afrunt.stupidjokes.jokeservice.api.Joke;
 import com.afrunt.stupidjokes.jokeservice.api.JokeService;
 import com.afrunt.stupidjokes.jokeservice.api.impl.entity.JokeEntity;
-import com.afrunt.stupidjokes.jokeservice.api.impl.misc.Chunks;
+import com.afrunt.stupidjokes.jokeservice.commons.Chunks;
 import com.afrunt.stupidjokes.jokeservice.api.impl.repository.JokeRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

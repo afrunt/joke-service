@@ -1,4 +1,4 @@
-package com.afrunt.stupidjokes.jokeservice.api.impl.misc;
+package com.afrunt.stupidjokes.jokeservice.commons;
 
 import java.util.*;
 

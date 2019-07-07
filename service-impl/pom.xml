@@ -14,6 +14,10 @@
     <dependencies>
         <dependency>
             <groupId>com.afrunt.stupidjokes.jokeservice</groupId>
+            <artifactId>commons</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.afrunt.stupidjokes.jokeservice</groupId>
             <artifactId>service-api</artifactId>
         </dependency>
         <dependency>
