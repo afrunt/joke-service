@@ -27,6 +27,7 @@ public class Crawler {
     private static final Logger LOGGER = LoggerFactory.getLogger(Crawler.class);
 
     public static void main(String[] args) {
+        LOGGER.info("ssl disabled");
         SpringApplication.run(Crawler.class, args);
     }
 
@@ -46,7 +47,8 @@ public class Crawler {
         Properties props = new Properties();
         props.load(new FileInputStream(file));
 
-        LOGGER.info("Hosts overrides found");
+        new SSLDisabler().disable();
+        LOGGER.info("Hosts overrides found -> SSL disabled");
 
         return props.entrySet().stream()
                 .peek(e -> LOGGER.info("{} -> {}", e.getKey(), e.getValue()))

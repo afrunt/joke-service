@@ -1,10 +1,10 @@
 FROM adoptopenjdk/openjdk12:alpine-slim
 
-RUN mkdir /deployment
-
-COPY entrypoint.sh /deployment/
+RUN mkdir /deployment && apk --no-cache add curl
 
 ADD https://repo1.maven.org/maven2/co/elastic/apm/elastic-apm-agent/1.6.1/elastic-apm-agent-1.6.1.jar /deployment/agents/elastic-apm-agent.jar
+
+COPY entrypoint.sh /deployment/
 
 COPY target/crawler.jar /deployment/application.jar
 
