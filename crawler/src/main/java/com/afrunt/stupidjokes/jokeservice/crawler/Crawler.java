@@ -46,9 +46,8 @@ public class Crawler {
 
         Properties props = new Properties();
         props.load(new FileInputStream(file));
-
-        new SSLDisabler().disable();
-        LOGGER.info("Hosts overrides found -> SSL disabled");
+        
+        LOGGER.info("Hosts overrides found");
 
         return props.entrySet().stream()
                 .peek(e -> LOGGER.info("{} -> {}", e.getKey(), e.getValue()))
