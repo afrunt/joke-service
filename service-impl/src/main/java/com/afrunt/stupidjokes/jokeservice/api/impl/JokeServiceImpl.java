@@ -3,8 +3,8 @@ package com.afrunt.stupidjokes.jokeservice.api.impl;
 import com.afrunt.stupidjokes.jokeservice.api.Joke;
 import com.afrunt.stupidjokes.jokeservice.api.JokeService;
 import com.afrunt.stupidjokes.jokeservice.api.impl.entity.JokeEntity;
-import com.afrunt.stupidjokes.jokeservice.commons.Chunks;
 import com.afrunt.stupidjokes.jokeservice.api.impl.repository.JokeRepository;
+import com.afrunt.stupidjokes.jokeservice.commons.Chunks;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
-import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -42,14 +41,7 @@ public class JokeServiceImpl implements JokeService {
 
     @Override
     public Optional<Joke> random() {
-        long count = jokeRepository.count();
-        if (count == 0) {
-            return Optional.empty();
-        }
-
-        long index = Math.abs(ThreadLocalRandom.current().nextLong()) % count;
-
-        return jokeRepository.findAll(PageRequest.of((int) index, 1))
+        return jokeRepository.findRandomJokes(PageRequest.of(0, 1))
                 .stream()
                 .findAny()
                 .map(ENTITY_TO_JOKE);

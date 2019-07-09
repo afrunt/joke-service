@@ -1,6 +1,7 @@
 package com.afrunt.stupidjokes.jokeservice.api.impl.repository;
 
 import com.afrunt.stupidjokes.jokeservice.api.impl.entity.JokeEntity;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -17,6 +18,10 @@ import static java.util.stream.Collectors.*;
  */
 @Repository
 public interface JokeRepository extends JpaRepository<JokeEntity, Long> {
+
+    @Query("SELECT je FROM JokeEntity je order by function('RAND')")
+    List<JokeEntity> findRandomJokes(Pageable pageable);
+
     @Query("SELECT j.hash FROM JokeEntity j WHERE j.hash in :hashes")
     Set<Integer> findExistingHashes(@Param("hashes") Collection<Integer> hashes);
 
