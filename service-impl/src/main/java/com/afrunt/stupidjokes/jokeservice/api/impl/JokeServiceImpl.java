@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StopWatch;
 
 import java.util.*;
 import java.util.function.Consumer;
@@ -41,10 +42,15 @@ public class JokeServiceImpl implements JokeService {
 
     @Override
     public Optional<Joke> random() {
-        return jokeRepository.findRandomJokes(PageRequest.of(0, 1))
+        StopWatch sw = new StopWatch();
+        sw.start();
+        Optional<Joke> optionalJoke = jokeRepository.findRandomJokes(PageRequest.of(0, 1))
                 .stream()
                 .findAny()
                 .map(ENTITY_TO_JOKE);
+        sw.stop();
+        LOGGER.info("Random joke retrieved in {}ms", sw.getTotalTimeMillis());
+        return optionalJoke;
     }
 
     @Override
@@ -58,10 +64,14 @@ public class JokeServiceImpl implements JokeService {
     public void dropDuplicates() {
         Set<Long> ids = jokeRepository.findIdsOfDuplicatesToRemove();
         if (!ids.isEmpty()) {
-            LOGGER.info("Delete {} duplicates by id", ids.size());
+            StopWatch sw = new StopWatch();
+            sw.start();
+
 
             Chunks.split(ids)
                     .forEach(chunk -> jokeRepository.deleteByIdIn(chunk));
+            sw.stop();
+            LOGGER.info("Delete {} duplicates by id. {}ms", ids.size(), sw.getTotalTimeMillis());
         } else {
             LOGGER.info("No duplicates found");
         }
@@ -74,9 +84,14 @@ public class JokeServiceImpl implements JokeService {
 
     @Override
     public Optional<Joke> findById(long id) {
-        return jokeRepository
+        StopWatch sw = new StopWatch();
+        sw.start();
+        Optional<Joke> joke = jokeRepository
                 .findById(id)
                 .map(ENTITY_TO_JOKE);
+        sw.stop();
+        LOGGER.info("Joke {} retrieved in {}ms", id, sw.getTotalTimeMillis());
+        return joke;
     }
 
     @Override
