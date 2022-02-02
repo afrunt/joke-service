@@ -31,7 +31,7 @@
         <!--Plugins-->
         <docker.maven.plugin.version>0.30.0</docker.maven.plugin.version>
         <h2.version>1.4.199</h2.version>
-        <postgresql.version>42.2.5</postgresql.version>
+        <postgresql.version>42.2.25</postgresql.version>
 
         <docker.repository>afrunt</docker.repository>
         <random-joke-crawler.version>0.2.2</random-joke-crawler.version>
